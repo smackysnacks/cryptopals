@@ -1,0 +1,7 @@
+[package]
+name = "challenge3"
+version = "0.1.0"
+authors = ["Mack Stump <mack.stump@gmail.com>"]
+
+[dependencies]
+utils = { path = "../utils" }

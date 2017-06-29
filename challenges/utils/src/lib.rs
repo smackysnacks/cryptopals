@@ -1,3 +1,5 @@
+pub mod counter;
+
 pub fn hex_to_bytes(s: &str) -> Vec<u8> {
     assert_eq!(s.len()%2, 0);
 
