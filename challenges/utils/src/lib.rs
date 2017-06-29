@@ -7,3 +7,11 @@ pub fn hex_to_bytes(s: &str) -> Vec<u8> {
     }
     bytes
 }
+
+pub fn bytes_to_hex(b: &Vec<u8>) -> String {
+    let mut s = String::with_capacity(b.len()*2);
+    for byte in b {
+        s.push_str(&format!("{:02x}", byte));
+    }
+    s
+}
