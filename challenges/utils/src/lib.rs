@@ -28,6 +28,16 @@ pub fn xor_single(buffer: &[u8], key: u8) -> Vec<u8> {
     outbuffer
 }
 
+pub fn xor_repeating(buffer: &[u8], key: &[u8]) -> Vec<u8> {
+    assert!(key.len() != 0);
+
+    let mut outbuffer = Vec::with_capacity(buffer.len());
+    for i in 0..buffer.len() {
+        outbuffer.push(buffer[i] ^ key[i % key.len()]);
+    }
+    outbuffer
+}
+
 pub fn chisquare_frequency_score(input: &HashMap<&u8, usize>) -> f32 {
     let mut total = 0.0;
 
