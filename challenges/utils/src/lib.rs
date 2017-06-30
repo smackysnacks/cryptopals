@@ -79,3 +79,17 @@ pub fn chisquare_frequency_score(input: &HashMap<&u8, usize>) -> f32 {
 
     total
 }
+
+pub fn hamming_distance_byte(a: u8, b: u8) -> u32 {
+    (a ^ b).count_ones()
+}
+
+pub fn hamming_distance(a: &[u8], b: &[u8]) -> usize {
+    assert_eq!(a.len(), b.len());
+
+    let mut distance: usize = 0;
+    for i in 0..a.len() {
+        distance += hamming_distance_byte(a[i], b[i]) as usize;
+    }
+    distance
+}
