@@ -12,7 +12,7 @@ pub fn hex_to_bytes(s: &str) -> Vec<u8> {
     bytes
 }
 
-pub fn bytes_to_hex(b: &Vec<u8>) -> String {
+pub fn bytes_to_hex(b: &[u8]) -> String {
     let mut s = String::with_capacity(b.len()*2);
     for byte in b {
         s.push_str(&format!("{:02x}", byte));
@@ -20,7 +20,7 @@ pub fn bytes_to_hex(b: &Vec<u8>) -> String {
     s
 }
 
-pub fn xor_single(buffer: &Vec<u8>, key: u8) -> Vec<u8> {
+pub fn xor_single(buffer: &[u8], key: u8) -> Vec<u8> {
     let mut outbuffer = Vec::with_capacity(buffer.len());
     for b in buffer {
         outbuffer.push(b ^ key);
