@@ -9,7 +9,7 @@ fn best_3_keysizes(buffer: &[u8]) -> Vec<usize> {
     let mut scores: Vec<(f32, usize)> = Vec::new();
     for keysize in 2..41 {
         let mut distance = 0;
-        for i in 0..buffer.len()/keysize-2 {
+        for i in 0..buffer.len()/keysize-1 {
             distance += utils::hamming_distance(&buffer[keysize*i..keysize*(i+1)],
                                                 &buffer[keysize*(i+1)..keysize*(i+2)]);
         }
