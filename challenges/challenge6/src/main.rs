@@ -20,25 +20,6 @@ fn best_3_keysizes(buffer: &[u8]) -> Vec<usize> {
     scores.iter().take(3).map(|s| s.1).collect()
 }
 
-fn split_into_blocks(buffer: &[u8], length: usize) -> Vec<&[u8]> {
-    let mut blocks = Vec::new();
-    let mut i = 0;
-    loop {
-        if i*length < buffer.len() {
-            if i*length + length < buffer.len() {
-                blocks.push(&buffer[i*length..i*length+length]);
-            } else {
-                blocks.push(&buffer[i*length..]);
-            }
-            i += 1;
-        } else {
-            break;
-        }
-    }
-
-    blocks
-}
-
 fn crack(blocks: &Vec<&[u8]>) -> Vec<u8> {
     let mut stitched = Vec::new();
     let mut key = Vec::new();
@@ -63,7 +44,7 @@ fn main() {
 
     let keysizes = best_3_keysizes(&message);
     for keysize in keysizes {
-        let blocks = split_into_blocks(&message, keysize);
+        let blocks = message.chunks(keysize).collect();
         let key = crack(&blocks);
         println!("key {}", String::from_utf8_lossy(&key));
         let decrypted = utils::xor_repeating(&message, &key);
