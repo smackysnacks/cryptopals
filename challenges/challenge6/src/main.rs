@@ -3,7 +3,7 @@ extern crate utils;
 
 use base64::decode;
 
-fn best_3_keysizes(buffer: &[u8]) -> Vec<usize> {
+fn best_keysize(buffer: &[u8]) -> usize {
     // calculate the normalized edit distances
     // Vec<(score, keysize)>
     let mut scores: Vec<(f32, usize)> = Vec::new();
@@ -17,7 +17,8 @@ fn best_3_keysizes(buffer: &[u8]) -> Vec<usize> {
         scores.push((distance / keysize as f32, keysize));
     }
     scores.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
-    scores.iter().take(3).map(|s| s.1).collect()
+
+    scores[0].1
 }
 
 fn crack(blocks: &Vec<&[u8]>) -> Vec<u8> {
@@ -42,12 +43,11 @@ fn main() {
     let message = message.replace("\n", "");
     let message = decode(&message[..]).unwrap();
 
-    let keysizes = best_3_keysizes(&message);
-    for keysize in keysizes {
-        let blocks = message.chunks(keysize).collect();
-        let key = crack(&blocks);
-        println!("key {}", String::from_utf8_lossy(&key));
-        let decrypted = utils::xor_repeating(&message, &key);
-        println!("{}", String::from_utf8_lossy(&decrypted));
-    }
+    let keysize = best_keysize(&message);
+    let blocks = message.chunks(keysize).collect();
+    let key = crack(&blocks);
+    let decrypted = utils::xor_repeating(&message, &key);
+
+    println!("key {}", String::from_utf8_lossy(&key));
+    println!("{}", String::from_utf8_lossy(&decrypted));
 }
