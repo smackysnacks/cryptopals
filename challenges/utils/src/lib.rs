@@ -1,6 +1,9 @@
+use std::ascii::AsciiExt;
 use std::collections::HashMap;
 
 pub mod counter;
+
+use counter::Counter;
 
 pub fn hex_to_bytes(s: &str) -> Vec<u8> {
     assert_eq!(s.len()%2, 0);
@@ -92,4 +95,20 @@ pub fn hamming_distance(a: &[u8], b: &[u8]) -> usize {
         distance += hamming_distance_byte(a[i], b[i]) as usize;
     }
     distance
+}
+
+pub fn crack_single_xor(buffer: &[u8]) -> u8 {
+    let mut best_score = std::f32::INFINITY;
+    let mut best_key = 0;
+    for key in 1..256u16 {
+        let mut deciphered = xor_single(&buffer, key as u8);
+        deciphered = deciphered.iter().map(|b| b.to_ascii_lowercase()).collect();
+        let n = chisquare_frequency_score(&deciphered.as_slice().counts());
+        if n < best_score {
+            best_score = n;
+            best_key = key as u8;
+        }
+    }
+
+    best_key
 }
