@@ -1,8 +1,9 @@
 [package]
-name = "challenge6"
+name = "challenge7"
 version = "0.1.0"
 authors = ["Mack Stump <mack.stump@gmail.com>"]
 
 [dependencies]
 base64 = "0.6"
-utils = { path = "../utils" }
+openssl = "0.9"
+utils = { path = "../../utils" }

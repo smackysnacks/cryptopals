@@ -8,6 +8,7 @@ use openssl::symm::{decrypt, Cipher};
 fn main() {
     let message = include_str!("../7.txt");
     let message = message.replace("\n", "");
+    let message = message.replace("\r", "");
     let message = decode(&message).unwrap();
 
     let key = b"YELLOW SUBMARINE";
