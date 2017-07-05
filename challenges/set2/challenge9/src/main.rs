@@ -1,9 +1,6 @@
-fn pkcs7_pad(buffer: &mut Vec<u8>, blocksize: usize) {
-    let padding = blocksize % buffer.len();
-    for _ in 0..padding {
-        buffer.push(padding as u8);
-    }
-}
+extern crate utils;
+
+use utils::pkcs7_pad;
 
 fn main() {
     let mut s1 = b"YELLOW SUBMARINE".to_vec();
