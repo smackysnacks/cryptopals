@@ -5,5 +5,4 @@ authors = ["Mack Stump <mack.stump@gmail.com>"]
 
 [dependencies]
 base64 = "0.6"
-openssl = "0.9"
 utils = { path = "../../utils" }

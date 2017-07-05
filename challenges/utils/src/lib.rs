@@ -1,6 +1,7 @@
 use std::ascii::AsciiExt;
 use std::collections::HashMap;
 
+pub mod aes;
 pub mod counter;
 
 use counter::Counter;

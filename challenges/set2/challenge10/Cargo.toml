@@ -1,7 +1,7 @@
 [package]
-name = "utils"
+name = "challenge10"
 version = "0.1.0"
 authors = ["Mack Stump <mack.stump@gmail.com>"]
 
 [dependencies]
-openssl = "0.9"
+utils = { path = "../../utils" }
