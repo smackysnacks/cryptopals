@@ -19,5 +19,5 @@ fn main() {
     assert_eq!(b"YELLOW SUBMARINE!\x03\x03\x03", s2.as_slice());
     assert_eq!(b"YELLOW SUBMARINE!!\x02\x02", s3.as_slice());
     assert_eq!(b"YELLOW SUBMARINE!!!\x01", s4.as_slice());
-    assert_eq!(b"YELLOW SUBMARINE!!!!", s5.as_slice());
+    assert_eq!(&b"YELLOW SUBMARINE!!!!\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14\x14"[..], s5.as_slice());
 }
