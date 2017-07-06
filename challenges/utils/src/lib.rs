@@ -115,7 +115,8 @@ pub fn crack_single_xor(buffer: &[u8]) -> u8 {
 }
 
 pub fn pkcs7_pad(buffer: &mut Vec<u8>, blocksize: usize) {
-    let padding = blocksize % buffer.len();
+    let mut padding = blocksize - (buffer.len() % blocksize);
+    if padding == 0 { padding = 16; }
     for _ in 0..padding {
         buffer.push(padding as u8);
     }
