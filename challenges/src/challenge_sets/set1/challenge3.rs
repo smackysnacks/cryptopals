@@ -16,6 +16,6 @@ pub fn solve() -> bool {
         }
     }
 
-    return String::from_utf8_lossy(&cryptopals::utils::xor_single(&bytes, best_key))
-        == "Cooking MC's like a pound of bacon";
+    String::from_utf8_lossy(&cryptopals::utils::xor_single(&bytes, best_key))
+        == "Cooking MC's like a pound of bacon"
 }

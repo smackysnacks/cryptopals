@@ -56,4 +56,5 @@ fn main() {
     solve_with_spinner("challenge1", challenge_sets::challenge1::solve);
     solve_with_spinner("challenge2", challenge_sets::challenge2::solve);
     solve_with_spinner("challenge3", challenge_sets::challenge3::solve);
+    solve_with_spinner("challenge4", challenge_sets::challenge4::solve);
 }
