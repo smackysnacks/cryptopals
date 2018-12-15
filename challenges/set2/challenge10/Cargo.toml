@@ -1,8 +1,0 @@
-[package]
-name = "challenge10"
-version = "0.1.0"
-authors = ["Mack Stump <mack.stump@gmail.com>"]
-
-[dependencies]
-base64 = "*"
-utils = { path = "../../utils" }
