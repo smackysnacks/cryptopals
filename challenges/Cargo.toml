@@ -6,4 +6,9 @@ edition = "2018"
 
 [dependencies]
 base64 = "0.10"
+console = "0.7"
+indicatif = "0.10"
+log = "0.4"
+simple_logger = "1.0"
+
 cryptopals = { path = "../lib" }

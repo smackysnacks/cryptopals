@@ -1,7 +1,57 @@
 mod challenge_sets;
 
-const VERBOSE: bool = false;
+use console::style;
+use std::sync::mpsc::{channel, TryRecvError};
+use std::time::Duration;
+
+fn solve_with_spinner(challenge: &str, solution: fn() -> bool) {
+    let challenge = challenge.to_owned();
+    let spinner = indicatif::ProgressBar::new_spinner();
+    spinner.set_message(&format!("Solving {}...", challenge));
+
+    let (tx, rx) = channel();
+    std::thread::spawn(move || {
+        let passed = solution();
+        tx.send(passed).unwrap();
+    });
+
+    loop {
+        match rx.try_recv() {
+            Ok(passed) => {
+                if passed {
+                    spinner.finish_with_message(&format!(
+                        "{}... {}",
+                        challenge,
+                        style("Pass").green()
+                    ));
+                } else {
+                    spinner.finish_with_message(&format!(
+                        "{}... {}",
+                        challenge,
+                        style("Fail").red()
+                    ));
+                }
+
+                break;
+            }
+            Err(TryRecvError::Disconnected) => {
+                spinner.finish_with_message(&format!(
+                    "{}... {}",
+                    challenge,
+                    style("Never finished!").red()
+                ));
+
+                break;
+            }
+            Err(TryRecvError::Empty) => {}
+        }
+
+        std::thread::sleep(Duration::from_millis(40));
+        spinner.tick();
+    }
+}
 
 fn main() {
-    challenge_sets::challenge1::solve(VERBOSE);
+    solve_with_spinner("challenge1", challenge_sets::challenge1::solve);
+    solve_with_spinner("challenge2", challenge_sets::challenge2::solve);
 }
