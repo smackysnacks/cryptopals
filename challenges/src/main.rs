@@ -52,6 +52,8 @@ fn solve_with_spinner(challenge: &str, solution: fn() -> bool) {
 }
 
 fn main() {
+    println!("Solving challenge set 1");
     solve_with_spinner("challenge1", challenge_sets::challenge1::solve);
     solve_with_spinner("challenge2", challenge_sets::challenge2::solve);
+    solve_with_spinner("challenge3", challenge_sets::challenge3::solve);
 }
