@@ -1,0 +1,13 @@
+use base64::decode;
+
+pub fn solve() -> bool {
+    let message = include_str!("10.txt");
+    let message = message.replace("\n", "");
+    let message = message.replace("\r", "");
+    let message = decode(&message).unwrap();
+    let key = b"YELLOW SUBMARINE";
+    let iv = [0; 16];
+
+    let decrypted = cryptopals::utils::aes_128_cbc_decrypt(key, &message, &iv);
+    include_str!("10_solution.txt") == String::from_utf8_lossy(&decrypted)
+}
