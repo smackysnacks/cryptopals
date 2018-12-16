@@ -51,7 +51,7 @@ fn solve_with_spinner(challenge: &str, solution: fn() -> bool) {
     }
 }
 
-fn main() {
+fn solve_all() {
     println!("Solving challenge set 1");
     solve_with_spinner("challenge1", challenge_sets::challenge1::solve);
     solve_with_spinner("challenge2", challenge_sets::challenge2::solve);
@@ -61,4 +61,11 @@ fn main() {
     solve_with_spinner("challenge6", challenge_sets::challenge6::solve);
     solve_with_spinner("challenge7", challenge_sets::challenge7::solve);
     solve_with_spinner("challenge8", challenge_sets::challenge8::solve);
+
+    println!("Solving challenge set 2");
+    solve_with_spinner("challenge9", challenge_sets::challenge9::solve);
+}
+
+fn main() {
+    solve_all();
 }
