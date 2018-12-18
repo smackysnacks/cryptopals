@@ -9,6 +9,7 @@ base64 = "0.10"
 console = "0.7"
 indicatif = "0.10"
 log = "0.4"
+rand = "0.6"
 simple_logger = "1.0"
 
 cryptopals = { path = "../lib" }
