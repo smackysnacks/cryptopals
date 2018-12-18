@@ -7,6 +7,10 @@ use std::time::Duration;
 fn solve_with_spinner(challenge: &str, solution: fn() -> bool) {
     let challenge = challenge.to_owned();
     let spinner = indicatif::ProgressBar::new_spinner();
+    spinner.set_style(
+        indicatif::ProgressStyle::default_spinner()
+            .tick_chars("⠋⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏ "),
+    );
     spinner.set_message(&format!("Solving {}...", challenge));
 
     let (tx, rx) = channel();
