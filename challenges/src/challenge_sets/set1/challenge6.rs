@@ -43,7 +43,7 @@ pub fn solve() -> bool {
     let keysize = best_keysize(&message);
     let blocks: Vec<_> = message.chunks(keysize).collect();
     let key = crack(&blocks);
-    let decrypted = cryptopals::utils::xor_repeating(&message, &key);
+    let decrypted: Vec<_> = cryptopals::utils::xor_repeating(&message, &key).collect();
 
     String::from_utf8_lossy(&decrypted) == include_str!("6_solution.txt")
 }

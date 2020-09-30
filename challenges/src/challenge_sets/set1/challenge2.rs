@@ -15,5 +15,5 @@ pub fn solve() -> bool {
     let b1 = cryptopals::utils::hex_to_bytes(s1);
     let b2 = cryptopals::utils::hex_to_bytes(s2);
     let b3 = xor(&b1, &b2);
-    cryptopals::utils::bytes_to_hex(&b3) == "746865206b696420646f6e277420706c6179"
+    cryptopals::utils::bytes_to_hex(b3) == "746865206b696420646f6e277420706c6179"
 }

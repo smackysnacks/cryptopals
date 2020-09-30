@@ -6,22 +6,20 @@ pub use self::counter::*;
 
 use std::collections::HashMap;
 
-pub fn hex_to_bytes(s: &str) -> Vec<u8> {
-    assert_eq!(s.len() % 2, 0);
-
-    let mut bytes = Vec::with_capacity(s.len() / 2);
-    for i in 0..s.len() / 2 {
-        bytes.push(u8::from_str_radix(&s[i * 2..i * 2 + 2], 16).unwrap());
-    }
-    bytes
+pub fn hex_to_bytes<T>(bs: T) -> Vec<u8>
+where
+    T: AsRef<[u8]>,
+{
+    data_encoding::HEXLOWER_PERMISSIVE
+        .decode(bs.as_ref())
+        .unwrap()
 }
 
-pub fn bytes_to_hex(b: &[u8]) -> String {
-    let mut s = String::with_capacity(b.len() * 2);
-    for byte in b {
-        s.push_str(&format!("{:02x}", byte));
-    }
-    s
+pub fn bytes_to_hex<T>(b: T) -> String
+where
+    T: AsRef<[u8]>,
+{
+    data_encoding::HEXLOWER.encode(b.as_ref())
 }
 
 pub fn xor_single<T>(b: &T, key: u8) -> impl Iterator<Item = u8> + '_
@@ -31,14 +29,15 @@ where
     b.as_ref().iter().map(move |b| b ^ key)
 }
 
-pub fn xor_repeating(buffer: &[u8], key: &[u8]) -> Vec<u8> {
-    assert!(key.len() != 0);
-
-    let mut outbuffer = Vec::with_capacity(buffer.len());
-    for i in 0..buffer.len() {
-        outbuffer.push(buffer[i] ^ key[i % key.len()]);
-    }
-    outbuffer
+pub fn xor_repeating<'a, T, U>(b: &'a T, key: &'a U) -> impl Iterator<Item = u8> + 'a
+where
+    T: AsRef<[u8]> + ?Sized,
+    U: AsRef<[u8]> + ?Sized,
+{
+    b.as_ref()
+        .iter()
+        .zip(key.as_ref().iter().cycle())
+        .map(|(b1, b2)| b1 ^ b2)
 }
 
 pub fn chisquare_frequency_score(input: &HashMap<&u8, usize>) -> f32 {

@@ -27,14 +27,11 @@ pub fn aes_128_cbc_decrypt(key: &[u8], data: &[u8], iv: &[u8]) -> Vec<u8> {
     let mut i = 0;
     while i * 16 < data.len() {
         if i * 16 + 16 > data.len() {
-            let block = super::xor_repeating(&aes_128_ecb_decrypt(key, &data[i * 16..]), &c);
-            dec_buf.extend(&block);
+            dec_buf.extend(super::xor_repeating(&aes_128_ecb_decrypt(key, &data[i * 16..]), &c));
             c.clear();
             c.extend(&data[i * 16..]);
         } else {
-            let block =
-                super::xor_repeating(&aes_128_ecb_decrypt(key, &data[i * 16..i * 16 + 16]), &c);
-            dec_buf.extend(&block);
+            dec_buf.extend(super::xor_repeating(&aes_128_ecb_decrypt(key, &data[i * 16..i * 16 + 16]), &c));
             c.clear();
             c.extend(&data[i * 16..i * 16 + 16]);
         }
