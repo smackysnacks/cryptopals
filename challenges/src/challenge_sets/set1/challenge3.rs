@@ -7,7 +7,9 @@ pub fn solve() -> bool {
     let mut best_score = std::f32::INFINITY;
     let mut best_key = 0;
     for key in 1..=255 {
-        let deciphered: Vec<_> = cryptopals::utils::xor_single(&bytes, key).map(|b| b.to_ascii_lowercase()).collect();
+        let deciphered: Vec<_> = cryptopals::utils::xor_single(&bytes, key)
+            .map(|b| b.to_ascii_lowercase())
+            .collect();
         let n = cryptopals::utils::chisquare_frequency_score(&deciphered.as_slice().counts());
         if n < best_score {
             best_score = n;
