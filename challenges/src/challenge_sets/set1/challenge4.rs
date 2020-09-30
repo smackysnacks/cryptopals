@@ -1,4 +1,5 @@
 use cryptopals::utils::Counter;
+use rayon::prelude::*;
 
 struct Score {
     key: u8,
@@ -29,7 +30,7 @@ fn rank(s: &str) -> Score {
 
 pub fn solve() -> bool {
     let s = include_str!("4.txt");
-    let ranked: Vec<_> = s.lines().map(|l| rank(l)).collect();
+    let ranked: Vec<_> = s.par_lines().map(|l| rank(l)).collect();
 
     let mut max = 0;
     for i in 0..ranked.len() {

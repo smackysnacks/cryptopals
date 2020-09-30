@@ -86,12 +86,16 @@ pub fn hamming_distance_byte(a: u8, b: u8) -> u32 {
     (a ^ b).count_ones()
 }
 
-pub fn hamming_distance(a: &[u8], b: &[u8]) -> usize {
-    assert_eq!(a.len(), b.len());
+pub fn hamming_distance<T, U>(a: T, b: U) -> usize
+where
+    T: AsRef<[u8]>,
+    U: AsRef<[u8]>
+{
+    assert_eq!(a.as_ref().len(), b.as_ref().len());
 
     let mut distance: usize = 0;
-    for i in 0..a.len() {
-        distance += hamming_distance_byte(a[i], b[i]) as usize;
+    for i in 0..a.as_ref().len() {
+        distance += hamming_distance_byte(a.as_ref()[i], b.as_ref()[i]) as usize;
     }
     distance
 }
