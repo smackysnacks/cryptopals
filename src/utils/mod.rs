@@ -24,12 +24,11 @@ pub fn bytes_to_hex(b: &[u8]) -> String {
     s
 }
 
-pub fn xor_single(buffer: &[u8], key: u8) -> Vec<u8> {
-    let mut outbuffer = Vec::with_capacity(buffer.len());
-    for b in buffer {
-        outbuffer.push(b ^ key);
-    }
-    outbuffer
+pub fn xor_single<T>(b: &T, key: u8) -> impl Iterator<Item = u8> + '_
+where
+    T: AsRef<[u8]> + ?Sized,
+{
+    b.as_ref().iter().map(move |b| b ^ key)
 }
 
 pub fn xor_repeating(buffer: &[u8], key: &[u8]) -> Vec<u8> {
@@ -101,13 +100,14 @@ pub fn hamming_distance(a: &[u8], b: &[u8]) -> usize {
 pub fn crack_single_xor(buffer: &[u8]) -> u8 {
     let mut best_score = std::f32::INFINITY;
     let mut best_key = 0;
-    for key in 1..256u16 {
-        let mut deciphered = xor_single(&buffer, key as u8);
-        deciphered = deciphered.iter().map(|b| b.to_ascii_lowercase()).collect();
+    for key in 1..=255 {
+        let deciphered: Vec<_> = xor_single(&buffer, key)
+            .map(|b| b.to_ascii_lowercase())
+            .collect();
         let n = chisquare_frequency_score(&deciphered.as_slice().counts());
         if n < best_score {
             best_score = n;
-            best_key = key as u8;
+            best_key = key;
         }
     }
 

@@ -6,9 +6,8 @@ pub fn solve() -> bool {
 
     let mut best_score = std::f32::INFINITY;
     let mut best_key = 0;
-    for key in 1..256u16 {
-        let mut deciphered = cryptopals::utils::xor_single(&bytes, key as u8);
-        deciphered = deciphered.iter().map(|b| b.to_ascii_lowercase()).collect();
+    for key in 1..=255 {
+        let deciphered: Vec<_> = cryptopals::utils::xor_single(&bytes, key).map(|b| b.to_ascii_lowercase()).collect();
         let n = cryptopals::utils::chisquare_frequency_score(&deciphered.as_slice().counts());
         if n < best_score {
             best_score = n;
@@ -16,6 +15,6 @@ pub fn solve() -> bool {
         }
     }
 
-    String::from_utf8_lossy(&cryptopals::utils::xor_single(&bytes, best_key))
+    String::from_utf8_lossy(&cryptopals::utils::xor_single(&bytes, best_key).collect::<Vec<u8>>())
         == "Cooking MC's like a pound of bacon"
 }
