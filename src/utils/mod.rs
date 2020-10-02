@@ -89,32 +89,31 @@ pub fn hamming_distance_byte(a: u8, b: u8) -> u32 {
 pub fn hamming_distance<T, U>(a: T, b: U) -> usize
 where
     T: AsRef<[u8]>,
-    U: AsRef<[u8]>
+    U: AsRef<[u8]>,
 {
     assert_eq!(a.as_ref().len(), b.as_ref().len());
-
-    let mut distance: usize = 0;
-    for i in 0..a.as_ref().len() {
-        distance += hamming_distance_byte(a.as_ref()[i], b.as_ref()[i]) as usize;
-    }
-    distance
+    a.as_ref()
+        .iter()
+        .zip(b.as_ref().iter())
+        .map(|(&b1, &b2)| hamming_distance_byte(b1, b2) as usize)
+        .sum()
 }
 
-pub fn crack_single_xor(buffer: &[u8]) -> u8 {
-    let mut best_score = std::f32::INFINITY;
-    let mut best_key = 0;
-    for key in 1..=255 {
-        let deciphered: Vec<_> = xor_single(&buffer, key)
-            .map(|b| b.to_ascii_lowercase())
-            .collect();
-        let n = chisquare_frequency_score(&deciphered.as_slice().counts());
-        if n < best_score {
-            best_score = n;
-            best_key = key;
-        }
-    }
-
-    best_key
+pub fn crack_single_xor<T>(buffer: T) -> u8
+where
+    T: AsRef<[u8]>,
+{
+    (1..=255)
+        .map(|key| {
+            let deciphered: Vec<_> = xor_single(buffer.as_ref(), key)
+                .map(|b| b.to_ascii_lowercase())
+                .collect();
+            let score = chisquare_frequency_score(&deciphered.counts());
+            (score, key)
+        })
+        .min_by(|(score1, _), (score2, _)| score1.partial_cmp(score2).unwrap())
+        .unwrap()
+        .1
 }
 
 pub fn pkcs7_pad(buffer: &mut Vec<u8>, blocksize: usize) {
@@ -122,6 +121,7 @@ pub fn pkcs7_pad(buffer: &mut Vec<u8>, blocksize: usize) {
     if padding == 0 {
         padding = 16;
     }
+    buffer.reserve_exact(padding);
     for _ in 0..padding {
         buffer.push(padding as u8);
     }
