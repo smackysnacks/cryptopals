@@ -6,10 +6,8 @@ pub fn solve() -> bool {
         chunks.sort();
         let n = chunks.len();
         chunks.dedup();
-        if chunks.len() < n {
-            if line_number == 133 {
-                return true;
-            }
+        if chunks.len() < n && line_number == 133 {
+            return true;
         }
     }
 

@@ -19,20 +19,22 @@ fn best_keysize(buffer: &[u8]) -> usize {
 }
 
 fn crack(blocks: &[&[u8]]) -> Vec<u8> {
-    let mut stitched = Vec::new();
-    let mut key = Vec::new();
-
-    for i in 0..blocks[0].len() {
-        for j in 0..blocks.len() {
-            if i < blocks[j].len() {
-                stitched.push(blocks[j][i]);
-            }
-        }
-        key.push(crypto::utils::crack_single_xor(&stitched));
-        stitched.clear();
+    if blocks.is_empty() {
+        return Vec::new();
     }
 
-    key
+    let mut transposed = Vec::new();
+    blocks[0].iter().for_each(|_| transposed.push(Vec::new()));
+    for &block in blocks {
+        for i in 0..block.len() {
+            transposed[i].push(block[i]);
+        }
+    }
+
+    transposed
+        .into_iter()
+        .map(|block| crypto::utils::crack_single_xor(&block))
+        .collect()
 }
 
 pub fn solve() -> bool {
