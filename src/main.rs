@@ -10,7 +10,7 @@ fn solve_with_spinner(challenge: &str, solution: fn() -> bool) {
     let challenge = challenge.to_owned();
     let spinner = indicatif::ProgressBar::new_spinner();
     spinner.set_style(indicatif::ProgressStyle::default_spinner().tick_chars("⠋⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏ "));
-    spinner.set_message(&format!("Solving {}...", challenge));
+    spinner.set_message(format!("Solving {}...", challenge));
 
     let (tx, rx) = channel();
     std::thread::spawn(move || {
@@ -22,13 +22,13 @@ fn solve_with_spinner(challenge: &str, solution: fn() -> bool) {
         match rx.try_recv() {
             Ok(passed) => {
                 if passed {
-                    spinner.finish_with_message(&format!(
+                    spinner.finish_with_message(format!(
                         "{}... {}",
                         challenge,
                         style("Pass").green()
                     ));
                 } else {
-                    spinner.finish_with_message(&format!(
+                    spinner.finish_with_message(format!(
                         "{}... {}",
                         challenge,
                         style("Fail").red()
@@ -38,7 +38,7 @@ fn solve_with_spinner(challenge: &str, solution: fn() -> bool) {
                 break;
             }
             Err(TryRecvError::Disconnected) => {
-                spinner.finish_with_message(&format!(
+                spinner.finish_with_message(format!(
                     "{}... {}",
                     challenge,
                     style("Never finished!").red()
