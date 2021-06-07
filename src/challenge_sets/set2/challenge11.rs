@@ -5,7 +5,7 @@ fn random_key() -> [u8; 16] {
 }
 
 pub fn solve() -> bool {
-    let key = random_key();
+    let _key = random_key();
 
     false
 }

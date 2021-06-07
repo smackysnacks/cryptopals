@@ -6,6 +6,6 @@ pub fn solve() -> bool {
 I go crazy when I hear a cymbal";
     let key = b"ICE";
 
-    let e: Vec<_> = cryptopals::utils::xor_repeating(&message[..], &key[..]).collect();
-    solution == cryptopals::utils::bytes_to_hex(e)
+    let e: Vec<_> = crypto::utils::xor_repeating(&message[..], &key[..]).collect();
+    solution == crypto::utils::bytes_to_hex(e)
 }

@@ -1,4 +1,4 @@
-use cryptopals::utils::pkcs7_pad;
+use crypto::utils::pkcs7_pad;
 
 pub fn solve() -> bool {
     let mut s1 = b"YELLOW SUBMARINE".to_vec();

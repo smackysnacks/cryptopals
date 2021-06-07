@@ -8,6 +8,6 @@ pub fn solve() -> bool {
     let key = b"YELLOW SUBMARINE";
     let iv = [0; 16];
 
-    let decrypted = cryptopals::utils::aes_128_cbc_decrypt(key, &message, &iv);
+    let decrypted = crypto::utils::aes_128_cbc_decrypt(*key, &message, &iv);
     include_str!("10_solution.txt") == String::from_utf8_lossy(&decrypted)
 }

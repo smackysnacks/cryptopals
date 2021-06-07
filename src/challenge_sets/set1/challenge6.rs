@@ -5,7 +5,7 @@ fn best_keysize(buffer: &[u8]) -> usize {
     for keysize in 2..41 {
         let mut distance = 0;
         for i in 0..buffer.len() / keysize - 1 {
-            distance += cryptopals::utils::hamming_distance(
+            distance += crypto::utils::hamming_distance(
                 &buffer[keysize * i..keysize * (i + 1)],
                 &buffer[keysize * (i + 1)..keysize * (i + 2)],
             );
@@ -28,7 +28,7 @@ fn crack(blocks: &[&[u8]]) -> Vec<u8> {
                 stitched.push(blocks[j][i]);
             }
         }
-        key.push(cryptopals::utils::crack_single_xor(&stitched));
+        key.push(crypto::utils::crack_single_xor(&stitched));
         stitched.clear();
     }
 
@@ -43,7 +43,7 @@ pub fn solve() -> bool {
     let keysize = best_keysize(&message);
     let blocks: Vec<_> = message.chunks(keysize).collect();
     let key = crack(&blocks);
-    let decrypted: Vec<_> = cryptopals::utils::xor_repeating(&message, &key).collect();
+    let decrypted: Vec<_> = crypto::utils::xor_repeating(&message, &key).collect();
 
     String::from_utf8_lossy(&decrypted) == include_str!("6_solution.txt")
 }
