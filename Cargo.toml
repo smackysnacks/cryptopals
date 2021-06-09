@@ -10,10 +10,9 @@ edition = "2018"
 base64 = "0.13.0"
 console = "0.14.1"
 indicatif = "0.16.2"
-log = "0.4.14"
 rand = "0.8.3"
-simple_logger = "1.11.0"
 rayon = "1.5.1"
+lazy_static = "1.4.0"
 
 crypto = { path = "crypto" }
 

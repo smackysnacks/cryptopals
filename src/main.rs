@@ -69,6 +69,7 @@ fn solve_all() {
     solve_with_spinner("challenge9", challenge_sets::challenge9::solve);
     solve_with_spinner("challenge10", challenge_sets::challenge10::solve);
     solve_with_spinner("challenge11", challenge_sets::challenge11::solve);
+    solve_with_spinner("challenge12", challenge_sets::challenge12::solve);
 }
 
 fn main() {
