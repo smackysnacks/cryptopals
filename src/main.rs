@@ -6,11 +6,11 @@ use console::style;
 use std::sync::mpsc::{channel, TryRecvError};
 use std::time::Duration;
 
-fn solve_with_spinner(challenge: &str, solution: fn() -> bool) {
+fn solve(challenge: &str, solution: fn() -> bool) {
     let challenge = challenge.to_owned();
     let spinner = indicatif::ProgressBar::new_spinner();
     spinner.set_style(indicatif::ProgressStyle::default_spinner().tick_chars("⠋⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏ "));
-    spinner.set_message(format!("Solving {}...", challenge));
+    spinner.set_message(format!("Solving {challenge}..."));
 
     let (tx, rx) = channel();
     std::thread::spawn(move || {
@@ -56,20 +56,20 @@ fn solve_with_spinner(challenge: &str, solution: fn() -> bool) {
 
 fn solve_all() {
     println!("Solving challenge set 1");
-    solve_with_spinner("challenge1", challenge_sets::challenge1::solve);
-    solve_with_spinner("challenge2", challenge_sets::challenge2::solve);
-    solve_with_spinner("challenge3", challenge_sets::challenge3::solve);
-    solve_with_spinner("challenge4", challenge_sets::challenge4::solve);
-    solve_with_spinner("challenge5", challenge_sets::challenge5::solve);
-    solve_with_spinner("challenge6", challenge_sets::challenge6::solve);
-    solve_with_spinner("challenge7", challenge_sets::challenge7::solve);
-    solve_with_spinner("challenge8", challenge_sets::challenge8::solve);
+    solve("challenge1", challenge_sets::challenge1::solve);
+    solve("challenge2", challenge_sets::challenge2::solve);
+    solve("challenge3", challenge_sets::challenge3::solve);
+    solve("challenge4", challenge_sets::challenge4::solve);
+    solve("challenge5", challenge_sets::challenge5::solve);
+    solve("challenge6", challenge_sets::challenge6::solve);
+    solve("challenge7", challenge_sets::challenge7::solve);
+    solve("challenge8", challenge_sets::challenge8::solve);
 
     println!("Solving challenge set 2");
-    solve_with_spinner("challenge9", challenge_sets::challenge9::solve);
-    solve_with_spinner("challenge10", challenge_sets::challenge10::solve);
-    solve_with_spinner("challenge11", challenge_sets::challenge11::solve);
-    solve_with_spinner("challenge12", challenge_sets::challenge12::solve);
+    solve("challenge9", challenge_sets::challenge9::solve);
+    solve("challenge10", challenge_sets::challenge10::solve);
+    solve("challenge11", challenge_sets::challenge11::solve);
+    solve("challenge12", challenge_sets::challenge12::solve);
 }
 
 fn main() {

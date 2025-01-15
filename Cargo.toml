@@ -2,21 +2,16 @@
 name = "cryptopals"
 version = "0.0.0"
 authors = ["Mack Stump <mack@mackstump.com>"]
-edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+edition = "2024"
 
 [dependencies]
-base64 = "0.13.0"
-console = "0.14.1"
-indicatif = "0.16.2"
-rand = "0.8.3"
-rayon = "1.5.1"
-lazy_static = "1.4.0"
+base64 = "0.22.1"
+console = "0.16.0"
+indicatif = "0.18.0"
+rand = "0.9.1"
+rayon = "1.10.0"
 
 crypto = { path = "crypto" }
 
 [workspace]
-members = [
-    "crypto"
-]
+members = ["crypto"]

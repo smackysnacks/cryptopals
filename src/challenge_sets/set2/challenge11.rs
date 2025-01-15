@@ -20,7 +20,7 @@ fn encrypt(input: &[u8]) -> (Vec<u8>, BlockMode) {
     let mut data: Vec<u8> = prepend
         .into_iter()
         .chain(input.iter().cloned())
-        .chain(append.into_iter())
+        .chain(append)
         .collect();
     pkcs7_pad(&mut data, 16);
     match use_ecb {

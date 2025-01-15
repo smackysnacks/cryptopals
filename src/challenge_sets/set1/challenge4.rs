@@ -9,7 +9,7 @@ struct Score {
 fn rank(s: &str) -> Score {
     let bytes = crypto::utils::hex_to_bytes(s);
 
-    let mut best_score = std::f32::INFINITY;
+    let mut best_score = f32::INFINITY;
     let mut best_key = 0;
     for key in 1..=255 {
         let deciphered: Vec<_> = crypto::utils::xor_single(&bytes, key)
@@ -30,7 +30,7 @@ fn rank(s: &str) -> Score {
 
 pub fn solve() -> bool {
     let s = include_str!("4.txt");
-    let ranked: Vec<_> = s.par_lines().map(|l| rank(l)).collect();
+    let ranked: Vec<_> = s.par_lines().map(rank).collect();
 
     let mut max = 0;
     for i in 0..ranked.len() {

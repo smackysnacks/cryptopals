@@ -1,16 +1,48 @@
 use crate::utils::xor_repeating;
+
 use aes::Aes128;
-use block_modes::{block_padding::NoPadding, BlockMode, Ecb};
-use std::convert::TryInto;
+use cipher::{Array, BlockCipherDecrypt, BlockCipherEncrypt, KeyInit, consts::U16};
 
 pub fn aes_128_ecb_encrypt(key: [u8; 16], data: &[u8]) -> Vec<u8> {
-    let cipher = Ecb::<Aes128, NoPadding>::new_from_slices(&key, &[]).unwrap();
-    cipher.encrypt_vec(data)
+    assert_eq!(
+        data.len() % 16,
+        0,
+        "data must be a multiple of 16 (128 bits)"
+    );
+
+    let mut blocks: Vec<Array<u8, U16>> = data
+        .chunks(16)
+        .map(|chunk| Array::try_from(chunk).unwrap())
+        .collect();
+    let cipher = Aes128::new_from_slice(&key).unwrap();
+
+    cipher.encrypt_blocks(&mut blocks);
+
+    blocks
+        .into_iter()
+        .flat_map(|block| block.to_vec())
+        .collect()
 }
 
 pub fn aes_128_ecb_decrypt(key: [u8; 16], data: &[u8]) -> Vec<u8> {
-    let cipher = Ecb::<Aes128, NoPadding>::new_from_slices(&key, &[]).unwrap();
-    cipher.decrypt_vec(data).unwrap()
+    assert_eq!(
+        data.len() % 16,
+        0,
+        "data must be a multiple of 16 (128 bits)"
+    );
+
+    let mut blocks: Vec<Array<u8, U16>> = data
+        .chunks(16)
+        .map(|chunk| Array::try_from(chunk).unwrap())
+        .collect();
+    let cipher = Aes128::new_from_slice(&key).unwrap();
+
+    cipher.decrypt_blocks(&mut blocks);
+
+    blocks
+        .into_iter()
+        .flat_map(|block| block.to_vec())
+        .collect()
 }
 
 pub fn aes_128_cbc_encrypt(key: [u8; 16], data: &[u8], iv: [u8; 16]) -> Vec<u8> {

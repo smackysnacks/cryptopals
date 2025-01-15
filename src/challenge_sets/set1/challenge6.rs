@@ -1,3 +1,5 @@
+use base64::prelude::*;
+
 fn best_keysize(buffer: &[u8]) -> usize {
     // calculate the normalized edit distances
     // Vec<(score, keysize)>
@@ -40,7 +42,7 @@ fn crack(blocks: &[&[u8]]) -> Vec<u8> {
 pub fn solve() -> bool {
     let message = include_str!("6.txt");
     let message = message.replace("\n", "");
-    let message = base64::decode(&message[..]).unwrap();
+    let message = BASE64_STANDARD.decode(&message).unwrap();
 
     let keysize = best_keysize(&message);
     let blocks: Vec<_> = message.chunks(keysize).collect();
